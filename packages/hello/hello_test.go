@@ -3,10 +3,11 @@ package hello_test
 import (
 	"bytes"
 	"testing"
+
 	"github.com/devashishRaj/goTools/hello"
 )
 
-func TestPrintTo_PrintToGivenWriter(t *testing.T) {
+func TestPrintTo_PrintsHelloMessageToGivenWriter(t *testing.T) {
 	// "t" a pointer to testint.T struct which is used access methods to control the outcomes as "t"
 	// contains state of the test during execution
 
