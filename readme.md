@@ -2,7 +2,9 @@
 
 
 ## Packages 
->All design decisions start and end with the package. The purpose of a package is to provide a solution to a specific problem domain. To be purposeful, packages must provide, not contain. The more focused each package’s purpose is, the more clear it should be what the package provides.
+>All design decisions start and end with the package. The purpose of a package is to provide a 
+>solution to a specific problem domain. To be purposeful, packages must provide, not contain.  
+>The more focused each package’s purpose is, the more clear it should be what the package provides.
 
 > A module in Go is a collection of (usually related) packages. 
 - Good programmers, then, are always thinking in terms of writing importable packages, not mere dead‐end programs.
@@ -13,3 +15,10 @@
 >Writing a test forces you to think clearly and precisely about the observable behaviour of the component under test, rather than the irrelevant details of its implementation.
 
 1. If we want to design a package, a great way to begin is by pretending it already exists, and writing code that uses it to solve our problem.
+
+## PaperWork
+>Designing packages instead of programs means we need to think about how other people might use our code.
+
+- Mandatory arguments are annoying : hello.PrintTo(os.Stdout) in packages chapter, here mentioning  
+os.Stdout is like __useless paperwork__.
+    - we can make os.stdout default if argument passed is nil but this makes it worse but 

@@ -13,12 +13,28 @@ func TestPrintTo_PrintsHelloMessageToGivenWriter(t *testing.T) {
 
 	// tell compile that this test should be run concurrently with other test
 	t.Parallel()
-
+	// bytes.Buffer. It’s an all‐purpose io.Writer that remembers what we write to it
 	buf := new(bytes.Buffer)
 	hello.PrintTo(buf)
 	want := "Hello, World!"
+	// buf.String, which returns all the text written to buf since it was created.
 	got := buf.String()
 	if want != got {
 		t.Errorf("wanted %s got %s ", want, got)
 	}
+}
+
+func TestPrintWrapperHello(t *testing.T) {
+	t.Parallel()
+	buf := new(bytes.Buffer)
+	p := hello.NewPrinter()
+	// customize struct field value as necessory , dangerous though as there is no checking .
+	p.Output = buf
+	p.Print()
+    want := "Hello, World!\n"
+    got := buf.String()
+    if want != got {
+        t.Errorf("want %q, \ngot %q", want, got)
+    }
+
 }
