@@ -2,6 +2,8 @@ package main
 
 import (
 	"os"
+
+	"github.com/devashishRaj/goTools/hello"
 )
 
 func main() {
@@ -15,5 +17,5 @@ func main() {
 	// as it does not tell users why nil is passed.
 	hello.PrintTo(os.Stdout)
 	// a much better method
-	hello.Main()
+	os.Exit(hello.Main())
 }

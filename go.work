@@ -1,5 +1,9 @@
 go 1.21.7
 
-use (
-	./greet
-)
+use ./greet
+
+use ./hello
+
+use ./helloName
+
+use ./count

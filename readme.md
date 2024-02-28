@@ -1,6 +1,11 @@
 > You have learnt GO, now what can you do with it ?
+Index 
 
-
+1. [greet](/greet/)
+2. [hello](/hello/)
+3. [helloname](/helloName/)
+4. [lineCount](/lineCount/)
+5. [stringMatcher]()
 ## Packages 
 >All design decisions start and end with the package. The purpose of a package is to provide a 
 >solution to a specific problem domain. To be purposeful, packages must provide, not contain.  
@@ -22,3 +27,5 @@
 - Mandatory arguments are annoying : hello.PrintTo(os.Stdout) in packages chapter, here mentioning  
 os.Stdout is like __useless paperwork__.
     - we can make os.stdout default if argument passed is nil but this makes it worse but 
+
+
