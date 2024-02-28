@@ -9,6 +9,7 @@ import (
 )
 
 type counter struct {
+	files  []io.Reader
 	input  io.Reader
 	output io.Writer
 }
@@ -49,11 +50,15 @@ func WithInputFromArgs(args []string) option {
 		if len(args) < 1 {
 			return nil
 		}
-		f, err := os.Open(args[0])
-		if err != nil {
-			return err
+		c.files := make([]io.Reader, len(args))
+		for i, path := range args {
+			f, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			c.files[i] = f
 		}
-		c.input = f
+		c.input = io.MultiReader(c.files...)
 		return nil
 	}
 }
@@ -82,8 +87,24 @@ func (c *counter) Lines() int {
 	for input.Scan() {
 		lines++
 	}
-	for _ ,f := range c.files
+	for _, f := range c.files {
+		f.(io.Closer).Close()
+	}
 	return lines
+}
+
+func (c *counter) Words() int {
+	words := 0
+	input := bufio.NewScanner(c.input)
+	input.Split(bufio.ScanWords)
+	for input.Scan() {
+		words++
+	}
+	for _, f := range c.files {
+		f.(io.Closer).Close()
+	}
+	return words
+
 }
 
 // // wrapper
@@ -103,7 +124,7 @@ func (c *counter) Lines() int {
 func MainLines() int {
 	c, err := NewCounter(WithInputFromArgs(os.Args[1:]))
 	if err != nil {
-		fmt.Println(os.Stderr,err)
+		fmt.Println(os.Stderr, err)
 		return 1
 	}
 	fmt.Println(c.Lines())
@@ -112,14 +133,13 @@ func MainLines() int {
 }
 
 func MainWords() int {
-    c, err := NewCounter(
-        WithInputFromArgs(os.Args[1:]),
-    )
-    if err != nil {
-        fmt.Fprintln(os.Stderr, err)
-        return 1
-    }
-    fmt.Println(c.Words())
-    return 0
+	c, err := NewCounter(
+		WithInputFromArgs(os.Args[1:]),
+	)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	fmt.Println(c.Words())
+	return 0
 }
-
