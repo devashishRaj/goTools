@@ -1,9 +1,11 @@
-go 1.21.7
+go 1.22.0
 
-use ./greet
-
-use ./hello
-
-use ./helloName
-
-use ./count
+use (
+	./battery
+	./count
+	./findgo
+	./greet
+	./hello
+	./helloName
+	./writer
+)

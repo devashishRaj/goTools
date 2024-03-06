@@ -3,6 +3,7 @@ package count
 import (
 	"bufio"
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -26,17 +27,18 @@ type option func(*counter) error
 func WithInput(input io.Reader) option {
 	return func(c *counter) error {
 		if input == nil {
-			return errors.New("Nil input reader")
+			return errors.New("nil input reader")
 		}
 		c.input = input
 		return nil
 	}
 }
 
+// set required output stream
 func WithOutput(output io.Writer) option {
 	return func(c *counter) error {
 		if output == nil {
-			return errors.New("Nil output writer")
+			return errors.New("nil output writer")
 		}
 		c.output = output
 		return nil
@@ -50,7 +52,7 @@ func WithInputFromArgs(args []string) option {
 		if len(args) < 1 {
 			return nil
 		}
-		c.files := make([]io.Reader, len(args))
+		c.files = make([]io.Reader, len(args))
 		for i, path := range args {
 			f, err := os.Open(path)
 			if err != nil {
@@ -63,6 +65,7 @@ func WithInputFromArgs(args []string) option {
 	}
 }
 
+// create a new counter and apply any option(s) mentioned in parmeter.
 func NewCounter(opts ...option) (*counter, error) {
 	// default values for fields are here. If a filename is not passed as argument stdin will be used
 	// if both are present , file argument will be preferred
@@ -104,7 +107,6 @@ func (c *counter) Words() int {
 		f.(io.Closer).Close()
 	}
 	return words
-
 }
 
 // // wrapper
@@ -124,10 +126,10 @@ func (c *counter) Words() int {
 func MainLines() int {
 	c, err := NewCounter(WithInputFromArgs(os.Args[1:]))
 	if err != nil {
-		fmt.Println(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
-	fmt.Println(c.Lines())
+	fmt.Printf("Total number of lines %d\n", c.Lines())
 	return 0
 
 }
@@ -140,6 +142,38 @@ func MainWords() int {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
-	fmt.Println(c.Words())
+	fmt.Printf("Total number of words %d\n", c.Words())
+	return 0
+}
+
+func Main() int {
+	// flag.Bool to declare a new boolean flag, called lines
+	linemode := flag.Bool("lines", false, "Count lines, not words")
+	//   go build -o cmd/flag/flag cmd/flag/main.go
+	// then run ./cmd/flag/flag -h
+
+	flag.Usage = func() {
+		fmt.Printf("Usage: %s [-lines] [files...]\n", os.Args[0])
+		fmt.Println("Counts words (or lines) from stdin (or files).")
+		fmt.Println("Flags:")
+		flag.PrintDefaults()
+	}
+	// parse the program’s command‐line arguments, and use them to set the value of any flags
+	// previously defined.
+	// NOTE:that the flag package stops parsing as soon as it sees a non‐flag argument
+	flag.Parse()
+	// flag.Args,  to extract all the arguments that are left after flag.parse
+	c, err := NewCounter(WithInputFromArgs(flag.Args()))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	// flag.Parse needs to be able to modify each of our defined flag variables
+	// so it must maintain a list of pointers to those variables
+	if *linemode {
+		fmt.Printf("Total number of lines %d\n", c.Lines())
+	} else {
+		fmt.Printf("Total number of words %d\n", c.Words())
+	}
 	return 0
 }
