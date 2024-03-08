@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	count "github.com/devashishRaj/goTools/count"
+	"github.com/devashishRaj/goTools/count"
 )
 
 func TestLine_Count(t *testing.T) {

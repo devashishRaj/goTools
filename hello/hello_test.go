@@ -8,10 +8,10 @@ import (
 )
 
 func TestPrintTo_PrintsHelloMessageToGivenWriter(t *testing.T) {
-	// "t" a pointer to testint.T struct which is used access methods to control the outcomes as "t"
+	// "t" a pointer to testing.T struct which is used access methods to control the outcomes as "t"
 	// contains state of the test during execution
 
-	// tell compile that this test should be run concurrently with other test
+	// tell compiler that this test should be run concurrently with other test
 	t.Parallel()
 	// bytes.Buffer. It’s an all‐purpose io.Writer that remembers what we write to it
 	buf := new(bytes.Buffer)
@@ -28,13 +28,14 @@ func TestPrintWrapperHello(t *testing.T) {
 	t.Parallel()
 	buf := new(bytes.Buffer)
 	p := hello.NewPrinter()
-	// customize struct field value as necessory , dangerous though as there is no checking .
+	// customize struct field value as necessary , dangerous though as there is no checking .
+	// check count package for way of un-export struct fields and using options
 	p.Output = buf
 	p.Print()
-    want := "Hello, World!\n"
-    got := buf.String()
-    if want != got {
-        t.Errorf("want %q, \ngot %q", want, got)
-    }
+	want := "Hello, World!\n"
+	got := buf.String()
+	if want != got {
+		t.Errorf("want %q, \ngot %q", want, got)
+	}
 
 }

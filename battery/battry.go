@@ -15,7 +15,7 @@ type Status struct {
 // using var
 var pmsetOutput = regexp.MustCompile("([0-9]+)%")
 
-// Return status struct instance with chargingPercent filed set
+// GetStatus :Return status struct instance with chargingPercent filed set
 func GetStatus() (Status, error) {
 	text, err := GetPmsetOutput()
 	if err != nil {
@@ -24,7 +24,7 @@ func GetStatus() (Status, error) {
 	return ParsePmsetOutput(text)
 }
 
-// run command "pmset -g ps"
+// GetPmsetOutput :run command "pmset -g ps"
 func GetPmsetOutput() (string, error) {
 	// first string is taken as command and rest like "-g" will be arguments
 	// supplied to that command
@@ -35,7 +35,7 @@ func GetPmsetOutput() (string, error) {
 	return string(data), nil
 }
 
-// find's charging perset from output pmset and extracts chargingPercent
+// ParsePmsetOutput :find's charging percentage from output of pmset and extracts chargingPercent
 // via regex int Status struct
 func ParsePmsetOutput(text string) (Status, error) {
 	matches := pmsetOutput.FindStringSubmatch(text)

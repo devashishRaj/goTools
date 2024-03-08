@@ -8,18 +8,21 @@ import (
 )
 
 func TestGreetCLi(t *testing.T) {
-	// running tests concurrently can in detecting bugs releated to concurrency too
+	// running tests concurrently can in detecting bugs related to concurrency too
 	t.Parallel()
 	Greets := []string{"raj", "dev", "ashish"}
-	for _, a_greet := range Greets {
+	// mimic output to terminal
+	for _, aGreet := range Greets {
 		// to mimic user input from terminal
-		input := bytes.NewBufferString(a_greet)
-		// mimic output to terminal
+		input := bytes.NewBufferString(aGreet)
+		// acts as output stream
 		output := new(bytes.Buffer)
-		// clear the buffer for next user name .
-		output.Reset()
+		// if output is declared outside loop
+		//you can clear the buffer for next username using Reset .
+		//output.Reset()
 		greet.Greet(input, output)
-		want := "What is your name?\nHello, " + a_greet + "." + "\n"
+		//input.Reset()
+		want := "What is your name?\nHello, " + aGreet + "." + "\n"
 		got := output.String()
 		if want != got {
 			t.Errorf("Wanted \n%s \ngot \n%s", want, got)

@@ -1,11 +1,15 @@
 go 1.22.0
 
 use (
+	./ErrorHandle
 	./battery
 	./count
 	./findgo
 	./greet
 	./hello
 	./helloName
+	./safeWriter
+	./shell
+	./visitors
 	./writer
 )

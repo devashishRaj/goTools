@@ -27,11 +27,28 @@ func TestFinfgoCorrectlyListsFilesInTree(t *testing.T) {
 	}
 }
 
+func TestFilesCount_CorrecltyCountGOfiles(t *testing.T) {
+	t.Parallel()
+	fsys := fstest.MapFS{
+		// filename.extension:{ "you write some content of file" }
+		"file.go":                {},
+		"subfolder/subfolder.go": {},
+		"subfolder2/another.go":  {},
+		"subfolder2/file.go":     {},
+	}
+	want := 4
+	got := FilesCount(fsys)
+	if want != got {
+		t.Errorf("Wanted %d got %d ", want, got)
+	}
+
+}
+
 func TestFilesCorrectlyListsFilesInMapFS(t *testing.T) {
 	// MapFS
 	t.Parallel()
 	fsys := fstest.MapFS{
-		// filename.extension:{"you write some content of file "}
+		// filename.extension:{"you write some content of file"}
 		"file.go":                {},
 		"subfolder/subfolder.go": {},
 		"subfolder2/another.go":  {},
@@ -52,7 +69,7 @@ func TestFilesCorrectlyListsFilesInMapFS(t *testing.T) {
 func TestFilesCorrectlyListFilesInZipArchive(t *testing.T) {
 	t.Parallel()
 	// commands to create zip , finder's compress action might give error
-	// cd testdat
+	// cd testdata
 	// zip -r files.zip tree/
 	fsys, err := zip.OpenReader("testdata/files.zip")
 	if err != nil {
