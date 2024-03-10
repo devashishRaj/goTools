@@ -1,4 +1,4 @@
-go 1.22.0
+go 1.22.1
 
 use (
 	./ErrorHandle
@@ -8,8 +8,11 @@ use (
 	./greet
 	./hello
 	./helloName
+	./keyValueStore
+	./pipeline
 	./safeWriter
 	./shell
 	./visitors
+	./weather
 	./writer
 )

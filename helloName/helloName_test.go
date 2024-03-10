@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	helloname "github.com/devashishRaj/goTools/helloname"
+	"github.com/devashishRaj/goTools/helloname"
 )
 
 func TestIf_GivenNameIsGreeted(t *testing.T) {

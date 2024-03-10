@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/devashishRaj/goTools/count"
 	"os"
-	count "github.com/devashishRaj/goTools/count"
 )
 
 func main() {
-	 os.Exit(count.MainLines())
+	os.Exit(count.MainLines())
 }
